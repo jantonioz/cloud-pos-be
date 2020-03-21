@@ -83,6 +83,7 @@ const RootQuery = new GraphQLObjectType({
         }
       },
       resolve(parent, args) {
+        const usuarios = Usuario.find()
         return Usuario.find({ username: args.username, password: args.password })
       }
     }

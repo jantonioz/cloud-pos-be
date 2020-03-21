@@ -1,20 +1,56 @@
 const express = require('express')
 const expressGraphQL = require('express-graphql')
 const mongo = require('mongoose')
+const MongoClient = require('mongodb').MongoClient
+const bodyParser = require('body-parser')
+const headers = 'key'
 
 const app = express()
-mongo.connect('mongodb+srv://mongoAdmin:<J2zUUU9jIfbDrxYn>@mongocluster-1n5ld.mongodb.net/test?retryWrites=true&w=majority', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
+
+
+//--------------------Use coors--------------------
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header(
+    'Access-Control-Allow-Headers',
+    `Origin, X-Requested-With, Content-Type, Accept, Authorization, ${headers}`
+  )
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET')
+    return res.status(200).json({})
+  }
+  next()
 })
 
-app.use('/graphql', expressGraphQL({
-  schema,
-  rootValue: root,
-  graphiql: true,
-}))
+// BodyParser config
+app.use(
+  bodyParser.json({
+    limit: '50mb',
+  })
+)
+app.use(
+  bodyParser.urlencoded({
+    limit: '50mb',
+    extended: true,
+    parameterLimit: 50000,
+  })
+)
 
-mongo.connection.once('open', () => {
-  console.log("mongo connected!")
+
+mongo.Promise = global.Promise;
+const user = process.env.MONGO_USER
+const pwd = process.env.MONGO_PASSWORD
+const dbName = process.env.MONGO_DATABASE_NAME
+
+const uri = `mongodb+srv://${user}:${pwd}@mongocluster-1n5ld.mongodb.net/${dbName}?retryWrites=true&w=majority`
+mongo.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }).then((err, res) => {
   app.listen(4000, () => console.log("listening on localhost:4000/"))
 })
+// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+// client.connect((err, clt) => {
+//   console.log("mongo connected!")
+//   clt.db('CloudPosMain')
+//   app.listen(4000, () => console.log("listening on localhost:4000/"))
+// })
+
+app.use('/api/', require('./routers'))

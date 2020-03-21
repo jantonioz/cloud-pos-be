@@ -1,0 +1,52 @@
+{
+  "parser": "exprima",
+  "extends": "eslint:recommended",
+  "plugins": [
+    // "xxxxx",
+    "plugin:security/recommended",
+    "prettier",
+    "airbnb-base",
+    // "flow",
+    // "jsx",
+    // "estree",
+    "asyncFunctions",
+    "asyncGenerators",
+    "classConstructorCall",
+    "classProperties",
+    // "decorators",
+    "doExpressions",
+    "exponentiationOperator",
+    "exportExtensions",
+    // "functionBind",
+    "functionSent",
+    "objectRestSpread",
+    "trailingFunctionCommas",
+    "dynamicImport",
+    "numericSeparator",
+    "optionalChaining",
+    "importMeta",
+    "classPrivateProperties",
+    "bigInt",
+    "optionalCatchBinding"
+  ],
+  "env": {
+    "node": true,
+    "es6": true,
+    "browser": true
+  },
+  "parserOptions": {
+    "es6": true,
+    "ecmaVersion": 6,
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "jsx": true
+    }
+  },
+  "rules": {
+    "no-unused-vars": "warn",
+    "semi": [
+      "off",
+      "always"
+    ]
+  }
+}

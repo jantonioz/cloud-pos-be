@@ -8,4 +8,4 @@ const usuarioSchema = new Schema({
   lastLogin: Schema.Types.Date
 })
 
-module.exports = mongo.model('Usuario', usuarioSchema)
+module.exports = mongo.model('Usuario', usuarioSchema, 'Usuario')
