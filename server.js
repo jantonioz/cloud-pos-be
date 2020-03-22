@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const expressGraphQL = require('express-graphql')
 const mongo = require('mongoose')
