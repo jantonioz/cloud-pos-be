@@ -47,11 +47,5 @@ const uri = `mongodb+srv://${user}:${pwd}@mongocluster-1n5ld.mongodb.net/${dbNam
 mongo.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }).then((err, res) => {
   app.listen(4000, () => console.log("listening on localhost:4000/"))
 })
-// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
-// client.connect((err, clt) => {
-//   console.log("mongo connected!")
-//   clt.db('CloudPosMain')
-//   app.listen(4000, () => console.log("listening on localhost:4000/"))
-// })
 
 app.use('/api/', require('./routers'))

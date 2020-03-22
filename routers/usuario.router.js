@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const UsuarioMiddleware = require('../middleware/usuario.middleware')
+const UsuarioMiddleware = require('../middlewares/usuario.middleware')
 const UsuarioController = require('../controllers/usuarios.controller')
 
 router.post('/login', UsuarioMiddleware.login, UsuarioController.login)
