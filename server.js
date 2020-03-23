@@ -45,7 +45,8 @@ const dbName = process.env.MONGO_DATABASE_NAME
 
 const uri = `mongodb+srv://${user}:${pwd}@mongocluster-1n5ld.mongodb.net/${dbName}?retryWrites=true&w=majority`
 mongo.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }).then((err, res) => {
-  app.listen(4000, () => console.log("listening on localhost:4000/"))
+  const port = process.env.NODE_ENV === 'production' ? process.env.HTTP_PORT : 4000
+  app.listen(port, () => console.log(`listening on port ${port}`))
 })
 
 app.use('/api/', require('./routers'))
