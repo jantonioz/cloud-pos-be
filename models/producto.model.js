@@ -9,7 +9,8 @@ const productoSchema = new Schema({
   usuarioId: { type: Schema.Types.ObjectId, ref: 'Usuario', required: [true, "usuario is required"] },
   iconId: { type: Number, required: [true, "iconId is required"] },
   isActive: { type: Boolean, default: 1 },
-  created: { type: Schema.Types.Date, default: Date.now().toString() }
+  created: { type: Schema.Types.Date },
+  cantidad: { type: Number, default: 0 }
 })
 
 productoSchema.index({ nombre: 1, precio: 1, peso: 1 }, { unique: true })

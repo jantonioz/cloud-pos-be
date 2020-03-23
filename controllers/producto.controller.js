@@ -8,7 +8,7 @@ class ProductoController {
         const productos = await ProductoModel.insertMany(req.body)
         return res.status(200).json(productos)
       }
-      const producto = await ProductoModel.create({ ...req.body, isActive: 1 })
+      const producto = await ProductoModel.create({ ...req.body, isActive: 1, created: Date.now().toString() })
       res.status(200).json(producto)
     } catch (error) {
       errorHandler({ code: error.code, http: 500, message: error.message }, res)

@@ -1,6 +1,6 @@
 const UsuarioModel = require('../models/usuario.model')
 const { errorHandler } = require('../utils/errorHandler')
-const moment = require('moment')
+// const moment = require('moment')
 
 class UsuarioController {
   async login(req, res) {
