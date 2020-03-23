@@ -49,4 +49,6 @@ mongo.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }).then((er
   app.listen(port, () => console.log(`listening on port ${port}`))
 })
 
+app.use('/', (req, res) => res.send('Hola mundo'))
+
 app.use('/api/', require('./routers'))
