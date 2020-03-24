@@ -1,8 +1,8 @@
 require('dotenv').config()
 const express = require('express')
-const expressGraphQL = require('express-graphql')
+// const expressGraphQL = require('express-graphql')
 const mongo = require('mongoose')
-const MongoClient = require('mongodb').MongoClient
+// const MongoClient = require('mongodb').MongoClient
 const bodyParser = require('body-parser')
 const headers = 'key'
 const serverless = require('serverless-http')
@@ -46,7 +46,7 @@ const dbName = process.env.MONGO_DATABASE_NAME
 
 app.use('/', (req, res) => res.send('Hola mundo'))
 
-app.use('/api/', require('./routers'))
+app.use('/api/', require('../routers'))
 
 const uri = `mongodb+srv://${user}:${pwd}@mongocluster-1n5ld.mongodb.net/${dbName}?retryWrites=true&w=majority`
 mongo.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }).then((err, res) => {
