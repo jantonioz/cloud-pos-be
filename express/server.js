@@ -46,7 +46,7 @@ const dbName = process.env.MONGO_DATABASE_NAME
 
 
 app.use('/', (req, res) => res.sendFile(path.join(__dirname, '../index.html')));
-app.use('/hola', (req, res) => res.send({ message: 'Hola mundo', user, dbName }))
+app.use('/api/hola', (req, res) => res.send({ message: 'Hola mundo', user, dbName }))
 
 app.use('/api/', require('../routers'))
 
