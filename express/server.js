@@ -44,7 +44,7 @@ const user = process.env.MONGO_USER
 const pwd = process.env.MONGO_PASSWORD
 const dbName = process.env.MONGO_DATABASE_NAME
 
-app.use('/', (req, res) => res.send('Hola mundo'))
+app.use('/', (req, res) => res.send({ message: 'Hola mundo', user, dbName }))
 
 app.use('/api/', require('../routers'))
 
