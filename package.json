@@ -7,6 +7,9 @@
     "start": "node server.js",
     "build": "netlify-lambda build express"
   },
+  "engines": {
+    "node": "12.16.x"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
