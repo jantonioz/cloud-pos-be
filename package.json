@@ -4,8 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "build": "netlify-lambda build express"
+    "start": "node server.js"
   },
   "engines": {
     "node": "12.16.x"
@@ -22,9 +21,5 @@
     "moment": "^2.24.0",
     "mongodb": "^3.5.5",
     "mongoose": "^5.9.4"
-  },
-  "devDependencies": {
-    "netlify-lambda": "^1.6.3",
-    "serverless-http": "^2.3.2"
   }
 }
