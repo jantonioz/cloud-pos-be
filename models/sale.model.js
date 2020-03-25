@@ -1,8 +1,13 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
+const SaleItemSchema = new Schema({
+  sku: { type: Schema.Types.ObjectId, ref: 'Producto' },
+  cantidad: Number
+})
+
 const SaleSchema = new Schema({
-  items: [{ type: Schema.Types.ObjectId, ref: 'SaleItem' }],
+  items: [SaleItemSchema],
   dateTime: { type: Schema.Types.Date, default: Date.now().toString() }
 })
 

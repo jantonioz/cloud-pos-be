@@ -43,14 +43,17 @@ const user = process.env.MONGO_USER
 const pwd = process.env.MONGO_PASSWORD
 const dbName = process.env.MONGO_DATABASE_NAME
 
-app.use('/', (req, res) => res.send('Hola mundo'))
+app.get('/',
+  (req, res) =>
+    res.send('Hola mundo')
+)
 
 app.use('/api/', require('./routers'))
 
 const uri = `mongodb+srv://${user}:${pwd}@mongocluster-1n5ld.mongodb.net/${dbName}?retryWrites=true&w=majority`
 mongo.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }).then((err, res) => {
-  const host = process.env.HOST || '0.0.0.0'
-  const port = process.env.NODE_ENV === 'production' ? process.env.HTTP_PORT : 4000
+  const host = process.env.HOST || '192.168.0.23'
+  const port = process.env.NODE_ENV === 'production' ? process.env.HTTP_PORT : 8080
   app.listen(port, host, () => console.log(`listening on port ${host}:${port}`))
 })
 
