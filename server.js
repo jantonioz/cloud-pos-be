@@ -1,4 +1,5 @@
 require('dotenv').config()
+const IP = require('ip')
 const express = require('express')
 const expressGraphQL = require('express-graphql')
 const mongo = require('mongoose')
@@ -14,10 +15,10 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
   res.header(
     'Access-Control-Allow-Headers',
-    `Origin, X-Requested-With, Content-Type, Accept, Authorization, ${headers}`
+    `Origin, X-Requested-With, Content-Type, Accept, Authorization`
   )
   if (req.method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET')
+    res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET, UPDATE')
     return res.status(200).json({})
   }
   next()
@@ -52,8 +53,12 @@ app.use('/api/', require('./routers'))
 
 const uri = `mongodb+srv://${user}:${pwd}@mongocluster-1n5ld.mongodb.net/${dbName}?retryWrites=true&w=majority`
 mongo.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }).then((err, res) => {
-  const host = process.env.HOST || '192.168.0.23'
-  const port = process.env.NODE_ENV === 'production' ? process.env.HTTP_PORT : 8080
-  app.listen(port, host, () => console.log(`listening on port ${host}:${port}`))
+  const host = process.env.HOST || IP.address() || '192.168.137.178'
+  const port = process.env.NODE_ENV === 'production' ? process.env.HTTP_PORT : 4000
+
+  const server = require('http').createServer(app)
+  server.listen(port, host, () => {
+    console.log(`listening on port ${host}:${port}`, server.address())
+  })
 })
 

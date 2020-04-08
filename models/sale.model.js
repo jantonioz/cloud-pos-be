@@ -8,7 +8,8 @@ const SaleItemSchema = new Schema({
 
 const SaleSchema = new Schema({
   items: [SaleItemSchema],
-  dateTime: { type: Schema.Types.Date, default: Date.now().toString() }
+  dateTime: { type: Schema.Types.Date, default: Date.now().toString() },
+  clientName: {type: Schema.Types.String, default: 'No id.'}
 })
 
 module.exports = mongoose.model('Sale', SaleSchema, 'Sale')
