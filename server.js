@@ -53,6 +53,8 @@ app.use('/api/', require('./routers'))
 
 const uri = `mongodb+srv://${user}:${pwd}@mongocluster-1n5ld.mongodb.net/${dbName}?retryWrites=true&w=majority`
 mongo.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }).then((err, res) => {
+
+  if (err) console.log(err)
   const host = process.env.HOST || IP.address() || '192.168.137.178'
   const port = process.env.NODE_ENV === 'production' ? process.env.HTTP_PORT : 4000
 
