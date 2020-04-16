@@ -59,7 +59,7 @@ mongo.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }).then((er
   const port = process.env.NODE_ENV === 'production' ? process.env.HTTP_PORT : 4000
 
   const server = require('http').createServer(app)
-  server.listen(port, host, () => {
+  server.listen(port, () => {
     console.log(`listening on port ${host}:${port}`, server.address())
   })
 })
