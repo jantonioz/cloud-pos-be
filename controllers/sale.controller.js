@@ -33,6 +33,11 @@ class SaleController {
 
   async add(req, res) {
     try {
+      let clientName = ""
+      if (!Array.isArray(req.body)) {
+        clientName = req.body.clientName
+        req.body = req.body.items
+      }
       if (!Array.isArray(req.body)) throw { http: 400, code: 91, message: 'body must be an array' }
       const saleItems = req.body
       await Promise.all(
@@ -43,7 +48,7 @@ class SaleController {
         })
       )
       const mapedSaleItems = saleItems.map(item => ({ sku: item.productoId, cantidad: Number(item.cant) }))
-      const sale = await Sale.create({ items: mapedSaleItems, dateTime: Date.now().toString() })
+      const sale = await Sale.create({ items: mapedSaleItems, dateTime: Date.now().toString(), clientName })
       res.status(200).json(sale)
     } catch (error) {
       errorHandler(error, res)

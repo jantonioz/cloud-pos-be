@@ -16,15 +16,19 @@ class PurchaseController {
 
   async add(req, res) {
     try {
-      const purchaseItems = await PurchaseItem.insertMany(req.body)
-      const productosUpdated = await Promise.all(
-        purchaseItems.map(async item => {
-          const producto = await Producto.findById(item.productoId)
-          producto.cantidad = producto.cantidad + item.cantidad
+      let sellerName = req.body.sellerName
+      if (!Array.isArray(req.body.items)) throw { code: 400, message: 'Items must be an array' }
+
+      const purchaseItems = await Promise.all(
+        req.body.items.map(async item => {
+          const producto = await Producto.findById(item.productoId || item._id)
+          producto.cantidad = producto.cantidad + Number(item.cant)
           await producto.save()
+          return { sku: item.productoId, cantidad: Number(item.cant) }
         })
       )
-      const purchase = await Purchase.create({ items: purchaseItems.map(i => i.id), dateTime: Date.now().toString() })
+
+      const purchase = await Purchase.create({ items: purchaseItems, dateTime: Date.now().toString(), sellerName })
       res.status(200).json(purchase)
     } catch (error) {
       errorHandler({ code: error.code, massage: error.message, http: 500 }, res)
