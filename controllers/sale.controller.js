@@ -40,6 +40,7 @@ class SaleController {
       }
       if (!Array.isArray(req.body)) throw { http: 400, code: 91, message: 'body must be an array' }
       const saleItems = req.body
+      
       await Promise.all(
         saleItems.map(async item => {
           const producto = await Producto.findById(item.productoId || item._id)

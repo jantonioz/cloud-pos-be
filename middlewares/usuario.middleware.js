@@ -1,3 +1,4 @@
+"use strict"
 const Joi = require('@hapi/joi')
 const { errorHandler } = require('../utils/errorHandler')
 

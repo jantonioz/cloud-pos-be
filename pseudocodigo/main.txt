@@ -1,0 +1,63 @@
+## Pseudocodigo para el algoritmo de Venta en la parte de la app(Un cliente comprando productos al negocio)
+## Este algoritmo logra la capacidad de realizar una lista de productos y etiquetarla como una venta
+## que seguidamente actualiza las cantidades del inventario del usuario
+
+Inicializar lista de Venta en vacio
+Inicializar lista de productos
+Obtener lista de productos desde el servidor
+
+Mientras el usuario no haya dado click en el boton Enviar
+	Si el usuario hace click en el boton agregar:
+		Mostrar ventana modal de seleccion de producto
+		Si el usuario hace click en la lista despegable
+			Crear una lista virtual con información de productos disponibles
+			Crear barra deslizante para indicar cantidad de productos
+			Inicialiszar el valor de la barra deslizante en 1
+			Si el usuario hace click en un producto
+				Seleccionar temporalmente el producto seleccionado
+			Si el usuario cambia el valor de la barra deslizante
+				Actualizar el producto temporal
+			Si el usuario da click en Aceptar
+				Agregar el producto con la cantidad especificada a la lista de Venta
+				Activar boton enviar en la pantalla principal de Venta
+			Si el usuario da click en cancelar
+				Cerrar ventana modal de seleccion de producto
+
+	Si el usuario da click en el boton Enviar
+		Mostar ventana Modal para el nombre del Cliente
+		Si el usuario ingresa un valor aceptable
+			Mostar el boton Aceptar
+			Si el usuario da click en el boton Aceptar
+				Enviar una solucitud al servidor para el cambio de la cantidad del producto
+		Si el usuario da click en cancelar
+			Cerrar la ventana modal para el nombre del Cliente
+
+
+## Pseudocodigo del servidor responsable de aceptar solicitudes como el registro de una Venta.
+## Es capaz de guardar la información de la compra así como la fecha y el nombre del Cliente como también
+## es capaz de actualizar la cantidad de productos según la lista de Venta.
+## Este bloque de Pseudocodigo omite la parte donde el programa escucha las peticiones así como otras
+## configuraciones escenciales para el funcionamiento del programa.
+
+
+Esperar peticion
+Si hay una peticion y es del tipo Registar Venta
+	Si la peticion no cuenta con las cabezeras de autenticacion
+		Regresar error
+	Obtener usuario según la cabezera de autenticación JWT
+	Si el usuario no es válido o no está vigente
+		Regresar error
+	Si el cuerpo de la peticion no contiene una lista
+		Regresar error
+	Si el nombre del Cliente es vacio
+		Actualizar a "No. Id" como nombre de Cliente
+	Para cada producto en la lista de Venta
+		Buscar el producto en la base de datos
+		Si el producto no existe
+			Regresar error
+		Restar la cantidad del producto
+		Guardar producto
+	
+	Agregar hora y fecha a la lista de Venta
+	Guardar lista de Venta
+	Mandar respuesta correcta
