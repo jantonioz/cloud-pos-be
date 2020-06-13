@@ -6,8 +6,21 @@ const { errorHandler } = require('../utils/errorHandler')
 class PurchaseController {
   async get(req, res) {
     try {
-      // const purchases = await Purchase.find(req.query).populate({ path: 'items', populate: { path: 'productoId' } }).exec()
-      const purchases = await Purchase.find(req.query)
+      const { _id, dateTime, startDate, endDate } = req.query
+      let filters = {}
+      if (startDate && endDate) {
+        filters.dateTime = {
+          $gte: new Date(req.query.startDate),
+          $lte: new Date(req.query.endDate)
+        }
+      }
+      if (_id) filters._id = _id
+      if (dateTime) filters.dateTime = dateTime
+
+      const purchases = await Purchase.find({
+        ...filters,
+      }).populate('items.sku')
+
       res.status(200).json(purchases)
     } catch (error) {
       errorHandler({ code: error.code, massage: error.message, http: 500 }, res)
@@ -21,14 +34,20 @@ class PurchaseController {
 
       const purchaseItems = req.body.items
 
+      // purchaseItems.forEach(item => {
+      //   if (!item.cant || !Number.isNaN(item.cant) || Number(item.cant) === 0)
+      //     throw { http: 409, code: 201, message: { text: 'Item quantity not allowed', details: item } }
+      // })
+
       await Promise.all(
         purchaseItems.map(async item => {
           const producto = await Producto.findById(item.productoId || item._id)
+          // if (producto.cantidad - Number(item.cant) < 0) throw { http: 409, code: 200, message: 'Illegal acction' }
           producto.cantidad = producto.cantidad + Number(item.cant)
           await producto.save()
         })
       )
-      const mappedPurchaseItem = purchaseItems.map(item => ({ sku: item.productoId, cantidad: Number(item.cant) }))
+      const mappedPurchaseItem = purchaseItems.map(item => ({ sku: item.productoId || item._id, cantidad: Number(item.cant) }))
       const purchase = await Purchase.create({ items: mappedPurchaseItem, dateTime: Date.now().toString(), sellerName })
       res.status(200).json(purchase)
     } catch (error) {
